@@ -1,0 +1,32 @@
+\section{Sample Java listings}
+A collection of Java listings \MyTableReference{tbl:startingPoint} that might be of use when designing your CRM implementation.
+\renewcommand{\MyTempCommand}[2]{\lstlistingname~\MyRef{#1} & #2}
+\begin{table}[h]
+  \centering
+  \MyCaption{Sample Java listings.}{These listings provided as starting points for different aspects of your CRM implementation.}{tbl:startingPoint}
+  \begin{tabular}{l p{0.5\textwidth}}
+    \MyHline
+    \textbf{Listing} & \textbf{Explanation}\\
+    \hline
+    \MyTempCommand{lst:helloWorld} {The ``classic'' hello world program in Java.}\\
+    \MyTempCommand{lst:echo} {Echo command line arguments to the screen.}\\
+    \MyTempCommand{lst:readLines}{How to read a string from a file to then process the line.}\\
+    \MyTempCommand{lst:base64Encode}{Base 64 encoding enables \MyUline{any} character set to be converted to ASCII.}\\
+    \MyTempCommand{lst:base64decode}{Decoding a base 64 string allows any character set to be safely passed using the ASCII character set.}\\
+    \MyTempCommand{lst:sampleControl}{Create a sample control file.}\\
+    \MyTempCommand{lst:sampleControlText}{The sample control file created by \lstlistingname~\MyRef{lst:sampleControlText}.  Note that some of the lines are too long to fit on the page, so you'll have to run the program to see the complete line.}\\
+    \MyHline
+  \end{tabular}
+  
+\end{table}
+\clearpage
+\lstinputlisting[caption={Classic: Hello World in Java.}, label={lst:helloWorld}]{Scripts/HelloWorld.java}
+\lstinputlisting[caption={Echo command line arguments to the screen.}, label={lst:echo}]{Scripts/Echo.java}
+\lstinputlisting[caption={Read lines from file, one at a time.}, label={lst:readLines}]{Scripts/ReadFileBufferedReader.java}
+\lstinputlisting[caption={How to base64 encode a string.}, label={lst:base64Encode}]{Scripts/Base64EncodeExample.java}
+\clearpage
+\lstinputlisting[caption={How to decode a base64 string.}, label={lst:base64decode}]{Scripts/Base64DecoderExample.java}
+\clearpage
+\lstinputlisting[caption={Create a sample control file.}, label={lst:sampleControl}]{Scripts/CreateSampleControlFile.java}
+\clearpage
+\lstinputlisting[caption={A sample control file.}, label={lst:sampleControlText}]{Scripts/sampleControlFile.txt}

@@ -1,0 +1,41 @@
+%% https://tex.stackexchange.com/questions/238840/how-to-number-listings-by-section-number
+
+\documentclass[12pt]{article}
+\input{localPreamble}
+
+\input{MyCommands}
+
+\input{localCommands}
+
+\MyPageSetup
+
+\title{
+  CSC-223 Data Structures and Analysis of Algorithms\\
+  Real-life Project\\
+(ver. 0.5)}
+
+\date{\today}
+\author{Chuck Cartledge, PhD}
+
+\begin{document}
+\counterwithin{lstlisting}{section}
+\maketitle
+\pagenumbering{roman}
+\thispagestyle{empty}
+\tableofcontents
+\listoftables
+\lstlistoflistings
+\cleardoublepage
+\thispagestyle{empty}
+\pagestyle{plain}
+\setcounter{page}{1}
+\pagenumbering{arabic}
+\cleardoublepage
+\input{introduction}
+\input{discusion}
+\input{controlFile}
+\input{conclusion}
+\appendix
+\input{sampleListings}
+
+\end{document}

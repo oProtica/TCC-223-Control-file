@@ -1,0 +1,127 @@
+\section{Control file specifications}
+These are the general specifications of the CRM control file.  Detailed specifications can be found in the subsections \ref{sec:control} to \ref{sec:delete}.  Section \ref{sec:control} deals with managing the ``system.'' Sections \ref{sec:create} through \ref{sec:delete} address creation, retrieving, updating, and deleting (\textbf{CRUD}) operations.  A sample control file created by \lstlistingname~\MyRef{lst:sampleControl} is available in \lstlistingname~\MyRef{lst:sampleControlText}.
+\begin{enumerate}
+\item The control file is a simple ASCII file.  It could be created with a text editor like Notepad, but need not be.
+\item Almost all controls will consist of at least three lines.  The purpose of the lines are:
+  \begin{enumerate}
+  \item Indicate the start of a something.
+  \item Usually, dlA base 64 encoded string that is used by the something.
+  \item Indicate the end of something.
+  \end{enumerate}
+\item Lines whose first non white-space character is a \# will be treated as a comment, and ignored.
+\item A control file will be processed until the \textbf{Exit} control is encountered, or the end of file is reached.
+  \item Controls are case sensitive.
+\end{enumerate}
+
+The name of the control file will be passed to the CRM as a command line argument.
+\MyColorBoxBlue{Not all file names are treated the same across all operating systems.}{Different operating systems have different rules when it comes to what constitutes a valid filename.  This includes things like:
+  \begin{tight_itemize}
+  \item Capitalization,
+  \item Length,
+  \item Valid characters, and
+  \item How to navigate from the current working directory to the actual file.
+  \end{tight_itemize}
+For the purposes of this CRM, apply the keep it simple silly (\textbf{KISS}) principle and keep all control files in the same working directory where the CRM is executing.
+}
+\MyColorBoxBlue{Not all base 64 encoders work the same.}{All encoders return a base 64 representation of the source characters.  But the length of the returned lines may vary.  A base 64 encoded string may span multiple lines.  The only way to ensure a complete base 64 line is read, is to read and append lines until an \textbf{ending mark} is read.}
+\renewcommand{\MyTempCommand}[3]{#1 & #2 & #3}
+\clearpage
+\subsection{System control\label{sec:control}}
+The CRM will be able to run in many different directories, persistently store data in different database files, and manage its data\MyTableReference{tbl:system}.
+\begin{table}[h]
+  \centering
+  \MyCaption{CRM system commands.}{A list of system level commands, their beginning and ending markers, and associated base64 encoded data.}{tbl:system}
+  \begin{tabular}{l p{0.5\textwidth} l}
+    \MyHline
+    \textbf{Starting} & \textbf{Base 64} & \textbf{Ending}\\
+    \textbf{Marker} & \textbf{Data} & \textbf{Marker}\\
+    \hline
+    \MyTempCommand{$<$System$>$}{A group marker to delimit where data to create a database begins and ends.  Only system commands are recognized in between these markers.}{$</$System$>$}\\
+    \MyTempCommand{$<$DBFileName$>$}{The name of the file where the database is persisted.}{$</$DBFileName$>$}\\
+    \MyTempCommand{$<$Delete$>$}{The name of the database file to be deleted.}{$</$Delete$>$}\\
+    \MyTempCommand{$<$Save$>$}{Save the current database to where it should be persisted. Optional text, by default save to the current database file.}{$</$Save$>$}\\
+    \MyTempCommand{$<$Exit$>$}{Terminate the current CRM process. If the field is not \textbf{NULL} then output the base 64 encoded termination message.}{$</$Exit$>$}\\
+    \MyTempCommand{$<$Output$>$}{Output retrieved CRM records, default to all records, possibly sorted. Sort directives are cumulative.}{$</$Output$>$}\\
+    \MyTempCommand{$<$Sort$>$}{Field used to sort CRM records. All sorts are cumulative, and there may be more than one. }{$</$Sort$>$}\\
+    \MyTempCommand{$<$Trace$>$}{Turn trace commands ``ON'' or ``OFF'' to track CRM operations.}{$</$Trace$>$}\\
+    \MyHline
+  \end{tabular}
+\end{table}
+\clearpage
+\subsection{Creating data\label{sec:create}}
+Data must be ``created'' in a database for it to be of much use\MyTableReference{tbl:create}.
+\begin{table}[h]
+  \centering
+  \MyCaption{\textbf{C}reation data commands.}{A list of data  level commands, their beginning and ending markers, and associated base64 encoded data.}{tbl:create}
+  \begin{tabular}{l p{0.5\textwidth} l}
+    \MyHline
+    \textbf{Starting} & \textbf{Base 64} & \textbf{Ending}\\
+    \textbf{Marker} & \textbf{Encoded Data} & \textbf{Marker}\\
+    \hline
+    \MyTempCommand{$<$Create$>$}{A group marker to delimit where data to create a CRM record begins and ends.  Only \textbf{C}reation commands are recognized in between these markers.}{$</$Create$>$}\\
+    \MyTempCommand{$<$Surname$>$}{Family name, may be NULL, or contain non-ASCII characters.}{$</$Surname$>$}\\
+    \MyTempCommand{$<$GivenName$>$}{Given name, may be NULL, or contain non-ASCII characters.}{$</$GivenName$>$}\\
+    \MyTempCommand{$<$Telephone$>$}{May be NULL, or digits, and/or mathematical operator symbols.}{$</$Telephone$>$}\\
+    \MyTempCommand{$<$PostCode$>$}{May be NULL, ASCII,or contain non-ASCII characters.}{$</$PostCode$>$}\\
+    \MyHline
+  \end{tabular}
+\end{table}
+Creating a CRM data record will result in a unique identifier that can be used by the other \textbf{CRUD} operations.  Duplicate entries will result in different identifiers.
+\clearpage
+\subsection{Retrieving data\label{sec:retrieve}}
+Data must be ``retrieved'' from a database for it to be of much use\MyTableReference{tbl:retrieve}.  In this context ``retrieved'' means that a record is identified for further processing (e.g., sorting, outputing, deleting, etc.).  If the identifier is valid, then the entire record is returned, otherwise an error message is returned.
+\begin{table}[h]
+  \centering
+  \MyCaption{\textbf{R}etieve commands.}{A list of system level commands, their beginning and ending markers, and associated base64 encoded data. Only \textbf{R}etrieve commands are recognized in between these markers.}{tbl:retrieve}
+  \begin{tabular}{l p{0.5\textwidth} l}
+    \MyHline
+    \textbf{Starting} & \textbf{} & \textbf{Ending}\\
+    \textbf{Marker} & \textbf{Data} & \textbf{Marker}\\
+    \hline
+    \MyTempCommand{$<$Retrieve$>$}{A group marker to delimit where data to retrieve a CRM  record begins and ends.}{$</$Retrieve$>$}\\
+    \MyTempCommand{$<$CRMID$>$}{The identifier as returned from the Creation operation.}{$</$CRMID$>$}\\
+    \MyHline
+  \end{tabular}
+\end{table}
+
+\MyColorBoxRed{Reserved CRMIDs}{There are some CRMIDs that are reserved for special uses.  They are case senstive and have special meaning.  They include:
+  \begin{itemize}
+  \item [All]: Refers to all records in the database.
+  \item [NULL]: Treated the same as \textbf{ALL}.
+  \end{itemize}
+  The CRMID \textbf{NULL} deserves special attention.  \textbf{NULL} is the empty string (i.e. a string with 0 characters), vice the 4 character string consisting of the token ``NULL''.  It is recommended that \textbf{NULL} not be used as a CRMID to avoid confusion.
+}
+
+\clearpage
+\subsection{Updating data\label{sec:update}}
+Data in a database is dynamic and must be changed from time to time for it to be of much use\MyTableReference{tbl:update}.
+\begin{table}[h]
+  \centering
+  \MyCaption{\textbf{U}pdating data commands.}{A list of system level commands, their beginning and ending markers, and associated base64 encoded data.}{tbl:update}
+  \begin{tabular}{l p{0.5\textwidth} l}
+    \MyHline
+    \textbf{Starting} & \textbf{Base 64} & \textbf{Ending}\\
+    \textbf{Marker} & \textbf{Encoded Data} & \textbf{Marker}\\
+    \hline
+    \MyTempCommand{$<$Update$>$}{A group marker to delimit where data to update a CRM record begins and ends. Only \textbf{U}pdate commands are recognized in between these markers.}{$</$Update$>$}\\
+    \MyTempCommand{$<$CRMID$>$}{The identifier as returned from the Creation operation.}{$</$CRMID$>$}\\
+    &(The same commands used to create a record are used to update the record.)& \\
+    \MyHline
+  \end{tabular}
+\end{table}
+\clearpage
+\subsection{Deleting data\label{sec:delete}}
+Data in a database must be ``deleted'' from a database for it to be of much use\MyTableReference{tbl:delete}.
+\begin{table}[h]
+  \centering
+  \MyCaption{\textbf{D}elete commands.}{A list of system level commands, their beginning and ending markers, and associated base64 encoded data.}{tbl:delete}
+  \begin{tabular}{l p{0.5\textwidth} l}
+    \MyHline
+    \textbf{Starting} & \textbf{} & \textbf{Ending}\\
+    \textbf{Marker} & \textbf{Data} & \textbf{Marker}\\
+    \hline
+    \MyTempCommand{$<$Delete$>$}{A group marker to delimit where data to delete a CRM record begins and ends. Only \textbf{D}elete commands are recognized in between these markers.}{$</$Delete$>$}\\
+    \MyTempCommand{$<$CRMID$>$}{The identifier as returned from the Creation operation.}{$</$CRMID$>$}\\
+    \MyHline
+  \end{tabular}
+\end{table}
