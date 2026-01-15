@@ -1,20 +1,27 @@
-\section{Sample Java listings}
-A collection of Java listings \MyTableReference{tbl:startingPoint} that might be of use when designing your CRM implementation.
+\section{Sample Java listings\label{sec:sampleListings}}
+A collection of Java listings \MyTableReference{tbl:startingPoint} that might be of use when designing your CRM implementation.  The files are available on \texttt{GitHub}, and can be cloned to a local repository with this git command:
+\begin{center}
+\begin{verbatim}
+  git clone git@github.com:Chuck-Cartledge/TCC-223-Control-file.git
+\end{verbatim}
+\end{center}
+or via a git graphical user interface \textbf{GUI}.
 \renewcommand{\MyTempCommand}[2]{\lstlistingname~\MyRef{#1} & #2}
 \begin{table}[h]
   \centering
-  \MyCaption{Sample Java listings.}{These listings provided as starting points for different aspects of your CRM implementation.}{tbl:startingPoint}
-  \begin{tabular}{l p{0.5\textwidth}}
+  \MyCaption{Sample Java listings.}{These listings are provided as starting points for different aspects of your CRM implementation.}{tbl:startingPoint}
+  \begin{tabular}{l p{0.6\textwidth}}
     \MyHline
     \textbf{Listing} & \textbf{Explanation}\\
     \hline
     \MyTempCommand{lst:helloWorld} {The ``classic'' hello world program in Java.}\\
     \MyTempCommand{lst:echo} {Echo command line arguments to the screen.}\\
     \MyTempCommand{lst:readLines}{How to read a string from a file to then process the line.}\\
-    \MyTempCommand{lst:base64Encode}{Base 64 encoding enables \MyUline{any} character set to be converted to ASCII.}\\
-    \MyTempCommand{lst:base64decode}{Decoding a base 64 string allows any character set to be safely passed using the ASCII character set.}\\
+    \MyTempCommand{lst:base64Encode}{Base64 encoding enables \MyUline{any} character set to be converted to ASCII.}\\
+    \MyTempCommand{lst:base64decode}{Decoding a base64 string allows \MyUline{any} character set to be safely passed using the ASCII character set.}\\
     \MyTempCommand{lst:sampleControl}{Create a sample control file.}\\
     \MyTempCommand{lst:sampleControlText}{The sample control file created by \lstlistingname~\MyRef{lst:sampleControlText}.  Note that some of the lines are too long to fit on the page, so you'll have to run the program to see the complete line.}\\
+    \MyTempCommand{lst:persistingData}{How to persist Java data structures\cite{blog:JavaSerialize}.}\\
     \MyHline
   \end{tabular}
   
@@ -30,3 +37,5 @@ A collection of Java listings \MyTableReference{tbl:startingPoint} that might be
 \lstinputlisting[caption={Create a sample control file.}, label={lst:sampleControl}]{Scripts/CreateSampleControlFile.java}
 \clearpage
 \lstinputlisting[caption={A sample control file.}, label={lst:sampleControlText}]{Scripts/sampleControlFile.txt}
+\clearpage
+\lstinputlisting[caption={Persisting Java data.}, label={lst:persistingData}]{Scripts/Geeks.java}
