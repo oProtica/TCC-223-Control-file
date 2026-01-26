@@ -40,14 +40,15 @@ The CRM will be able to run in many different directories, persistently store da
     \textbf{Marker} & \textbf{Data} & \textbf{Marker}\\
     \hline
     \MyTempCommand{$<$System$>$}{A group marker to delimit where data to create or manage a database begins and ends.  Only system commands are recognized in between these markers.}{$</$System$>$}\\
+    \MyHline
+    \MyAlsoCommandTwo\\
     \MyTempCommand{$<$DBFileName$>$}{The name of the file where the database is persisted.}{$</$DBFileName$>$}\\
     \MyTempCommand{$<$Delete$>$}{The name of the database file to be deleted.}{$</$Delete$>$}\\
-    \MyTempCommand{$<$Save$>$}{Save the current database to where it should be persisted. If the field is NULL by default save to the current database file.}{$</$Save$>$}\\
     \MyTempCommand{$<$Exit$>$}{Terminate the current CRM process. If the field is not \textbf{NULL} then output the base64 encoded termination message.}{$</$Exit$>$}\\
     \MyTempCommand{$<$Output$>$}{Output retrieved CRM records, default to all records, possibly sorted. Sort directives are cumulative.}{$</$Output$>$}\\
+    \MyTempCommand{$<$Save$>$}{Save the current database to where it should be persisted. If the field is NULL by default save to the current database file.}{$</$Save$>$}\\
     \MyTempCommand{$<$Sort$>$}{Field used to sort CRM records. All sorts are cumulative, and there may be more than one. }{$</$Sort$>$}\\
     \MyTempCommand{$<$Trace$>$}{Turn trace commands ``ON'' or ``OFF'' to track CRM operations.}{$</$Trace$>$}\\
-    \MyAlsoCommandTwo\\
     \MyHline
   \end{tabular}
 \end{table}
@@ -63,11 +64,12 @@ Data must be ``created'' in a database for it to be of much use\MyTableReference
     \textbf{Marker} & \textbf{Encoded Data} & \textbf{Marker}\\
     \hline
     \MyTempCommand{$<$Create$>$}{A group marker to delimit where data to create a CRM record begins and ends.  Only \textbf{C}reation commands are recognized in between these markers.}{$</$Create$>$}\\
-    \MyTempCommand{$<$Surname$>$}{Family name, may be NULL, or contain non-ASCII characters.}{$</$Surname$>$}\\
+    \MyHline
+    \MyAlsoCommandTwo\\
     \MyTempCommand{$<$GivenName$>$}{Given name, may be NULL, or contain non-ASCII characters.}{$</$GivenName$>$}\\
-    \MyTempCommand{$<$Telephone$>$}{May be NULL, or digits, and/or mathematical operator symbols.}{$</$Telephone$>$}\\
     \MyTempCommand{$<$PostCode$>$}{May be NULL, ASCII,or contain non-ASCII characters.}{$</$PostCode$>$}\\
-        \MyAlsoCommandTwo\\
+    \MyTempCommand{$<$Surname$>$}{Family name, may be NULL, or contain non-ASCII characters.}{$</$Surname$>$}\\
+    \MyTempCommand{$<$Telephone$>$}{May be NULL, or digits, and/or mathematical operator symbols.}{$</$Telephone$>$}\\
     \MyHline
   \end{tabular}
 \end{table}
@@ -84,12 +86,13 @@ Data must be ``retrieved'' from a database for it to be of much use\MyTableRefer
     \textbf{Marker} & \textbf{Data} & \textbf{Marker}\\
     \hline
     \MyTempCommand{$<$Retrieve$>$}{A group marker to delimit where data to retrieve a CRM  record begins and ends.  Only \textbf{R}etrieve commands are recognized in between these markers.}{$</$Retrieve$>$}\\
-    \MyTempCommand{$<$Surname$>$}{Family name, may be NULL, or contain non-ASCII characters.}{$</$Surname$>$}\\
-    \MyTempCommand{$<$GivenName$>$}{Given name, may be NULL, or contain non-ASCII characters.}{$</$GivenName$>$}\\
-    \MyTempCommand{$<$Telephone$>$}{May be NULL, or digits, and/or mathematical operator symbols.}{$</$Telephone$>$}\\
-    \MyTempCommand{$<$PostCode$>$}{May be NULL, ASCII,or contain non-ASCII characters.}{$</$PostCode$>$}\\
-    \MyAlsoCommand\\
+    \MyHline
     \MyAlsoCommandTwo\\
+    \MyAlsoCommand\\
+    \MyTempCommand{$<$GivenName$>$}{Given name, may be NULL, or contain non-ASCII characters.}{$</$GivenName$>$}\\
+    \MyTempCommand{$<$PostCode$>$}{May be NULL, ASCII,or contain non-ASCII characters.}{$</$PostCode$>$}\\
+    \MyTempCommand{$<$Surname$>$}{Family name, may be NULL, or contain non-ASCII characters.}{$</$Surname$>$}\\
+    \MyTempCommand{$<$Telephone$>$}{May be NULL, or digits, and/or mathematical operator symbols.}{$</$Telephone$>$}\\
     \MyHline
   \end{tabular}
 \end{table}
@@ -114,13 +117,14 @@ Data in a database is dynamic and must be changed from time to time for it to be
     \textbf{Marker} & \textbf{Encoded Data} & \textbf{Marker}\\
     \hline
     \MyTempCommand{$<$Update$>$}{A group marker to delimit where data to update a CRM record begins and ends. Only \textbf{U}pdate commands are recognized in between these markers.}{$</$Update$>$}\\
-    \MyTempCommand{$<$Surname$>$}{Family name, may be NULL, or contain non-ASCII characters.}{$</$Surname$>$}\\
-    \MyTempCommand{$<$GivenName$>$}{Given name, may be NULL, or contain non-ASCII characters.}{$</$GivenName$>$}\\
-    \MyTempCommand{$<$Telephone$>$}{May be NULL, or digits, and/or mathematical operator symbols.}{$</$Telephone$>$}\\
-    \MyTempCommand{$<$PostCode$>$}{May be NULL, ASCII,or contain non-ASCII characters.}{$</$PostCode$>$}\\
+    \MyHline
+    \MyAlsoCommandTwo\\    
     \MyAlsoCommand\\
     &(The same commands used to create a record are used to update the record.)& \\
-        \MyAlsoCommandTwo\\
+    \MyTempCommand{$<$GivenName$>$}{Given name, may be NULL, or contain non-ASCII characters.}{$</$GivenName$>$}\\
+    \MyTempCommand{$<$PostCode$>$}{May be NULL, ASCII,or contain non-ASCII characters.}{$</$PostCode$>$}\\
+    \MyTempCommand{$<$Surname$>$}{Family name, may be NULL, or contain non-ASCII characters.}{$</$Surname$>$}\\
+    \MyTempCommand{$<$Telephone$>$}{May be NULL, or digits, and/or mathematical operator symbols.}{$</$Telephone$>$}\\
     \MyHline
   \end{tabular}
 \end{table}
@@ -136,12 +140,13 @@ Data in a database must be ``deleted'' from a database for it to be of much use\
     \textbf{Marker} & \textbf{Data} & \textbf{Marker}\\
     \hline
     \MyTempCommand{$<$Delete$>$}{A group marker to delimit where data to delete a CRM record begins and ends. Only \textbf{D}elete commands are recognized in between these markers.}{$</$Delete$>$}\\
-    \MyTempCommand{$<$Surname$>$}{Family name, may be NULL, or contain non-ASCII characters.}{$</$Surname$>$}\\
-    \MyTempCommand{$<$GivenName$>$}{Given name, may be NULL, or contain non-ASCII characters.}{$</$GivenName$>$}\\
-    \MyTempCommand{$<$Telephone$>$}{May be NULL, or digits, and/or mathematical operator symbols.}{$</$Telephone$>$}\\
-    \MyTempCommand{$<$PostCode$>$}{May be NULL, ASCII,or contain non-ASCII characters.}{$</$PostCode$>$}\\
-    \MyAlsoCommand\\
+    \MyHline
     \MyAlsoCommandTwo\\    
+    \MyAlsoCommand\\
+    \MyTempCommand{$<$GivenName$>$}{Given name, may be NULL, or contain non-ASCII characters.}{$</$GivenName$>$}\\
+    \MyTempCommand{$<$PostCode$>$}{May be NULL, ASCII,or contain non-ASCII characters.}{$</$PostCode$>$}\\
+    \MyTempCommand{$<$Surname$>$}{Family name, may be NULL, or contain non-ASCII characters.}{$</$Surname$>$}\\
+    \MyTempCommand{$<$Telephone$>$}{May be NULL, or digits, and/or mathematical operator symbols.}{$</$Telephone$>$}\\
     \MyHline
   \end{tabular}
 \end{table}
