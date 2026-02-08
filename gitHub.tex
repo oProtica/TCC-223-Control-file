@@ -1,0 +1,23 @@
+\section{High Level GitHub Instructions\label{sec:gethub}}
+A quote from GitHub:
+\MyQuotation{``Git is a version control system that intelligently tracks changes in files. Git is particularly useful when you and a group of people are all making changes to the same files at the same time.\\   Typically, to do this in a Git-based workflow, you would:\\
+ -- \textbf{Create a branch} off from the main copy of files that you (and your collaborators) are working on.\\
+ -- \textbf{Make edits} to the files independently and safely on your own personal branch.\\
+ -- Let Git intelligently \textbf{merge} your specific changes back into the main copy of files, so that your changes don't impact other people's updates.\\
+ -- Let Git \textbf{keep track} of your and other people's changes, so you all stay working on the most up-to-date version of the project.''
+}{GitHub Staff}{github:about}
+
+If a GitHub repository exists, the owner will normally send an e-mail invitation for you to create a free account on GitHub.
+
+Once you have created your free account, then you will need to perform the following operations.  The exact commands and menu options to be used will vary based on which GUI, IDE, or CLI you use.
+\renewcommand{\MyTempCommand}[1]{\\(A sample command could be: \texttt{#1})}
+\begin{enumerate}
+\item Create a local directory where all your code and files will live. \MyTempCommand{mkdir /tmp/Temp/}
+  \item Change to your local directory.  \MyTempCommand{cd /tmp/Temp}
+  \item Clone the starting repository from GitHub to your local directory \MyTempCommand{\\git clone git@github.com:Chuck-Cartledge/TCC-223-Control-file.git\\}
+    \item Change directory to the repository you've just cloned from GitHub.\MyTempCommand{cd /tmp/Temp/TCC-223-Control-file/}
+\item Create a local branch for you to do your work in. \MyTempCommand{git checkout -b YourName}\\ \textbf{Note:} YourName is your personal name, not the string YourName
+\item Make any changes that you want to the files in your branch.  This might take a while because you'll make changes and test your changes many times until you have a collection of files you want to save to GitHub.
+\item Come up with a name that describes the changes you have done and how you can refer to them in the future.  Tell \texttt{git} what that name is. \MyTempCommand{git commit -am ``First go around''}
+  \item Push that collection of changed files to GitHub. \MyTempCommand{git push -u origin YourName}\\ \textbf{Note:} YourName needs to be replaced by the branch name you created 
+\end{enumerate}

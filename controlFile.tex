@@ -2,18 +2,18 @@
 \renewcommand{\MyAlsoCommand}[0] {$<$CRMID$>$ & The identifier as returned from the Creation operation.  CRMID is always plain text.& $</$CRMID$>$}
 \renewcommand{\MyAlsoCommandTwo}[0]{$<$Comment$>$ & A plain text message that is output to standard out when processed.& $</$Comment$>$}
 
-These are the general specifications of the CRM control file.  Detailed specifications can be found in the subsections \ref{sec:control} to \ref{sec:delete}.  Section \ref{sec:control} deals with managing the ``system.'' Sections \ref{sec:create} through \ref{sec:delete} address creation, retrieving, updating, and deleting (\textbf{CRUD}) operations.  A sample control file created by \lstlistingname~\MyRef{lst:sampleControl} is available in \lstlistingname~\MyRef{lst:sampleControlText} \MySectionReference{sec:sampleListings}.
+These are the general specifications of the CRM control file.  Detailed specifications can be found in the subsections \ref{sec:control} through \ref{sec:delete}.  Section \ref{sec:control} deals with managing the ``system.'' Sections \ref{sec:create} through \ref{sec:delete} address creating, retrieving, updating, and deleting (\textbf{CRUD}) operations.  A sample control file created by \lstlistingname~\MyRef{lst:sampleControl} is available in \lstlistingname~\MyRef{lst:sampleControlText} \MySectionReference{sec:sampleListings}.
 \begin{enumerate}
-\item The control file is a simple ASCII file.  It could be created with a text editor like Notepad, but need not be.
+\item The control file is a simple ASCII file.  It could be created with a text editor like Notepad, gedit, nano, or TextEdit but need not be.
 \item Almost all controls will consist of at least three lines.  The purpose of the lines are:
   \begin{enumerate}
   \item Indicate the start of a something.
-  \item Usually, a base64 encoded string that is used by the something.
+  \item Usually, a base64 encoded string that is used by the ``something.''
   \item Indicate the end of something.
   \end{enumerate}
 \item Lines whose first non white-space character is a \# will be treated as a comment, and ignored.
 \item A control file will be processed until the \textbf{Exit} control is encountered, or the end of file is reached.
-  \item Controls are case sensitive.
+  \item Control tokens are case sensitive.
 \end{enumerate}
 
 The name of the control file will be passed to the CRM as a command line argument.
@@ -22,11 +22,11 @@ The name of the control file will be passed to the CRM as a command line argumen
   \item Capitalization,
   \item Length,
   \item Valid characters, and
-  \item How to navigate from the current working directory to the actual file.
+  \item How to navigate from the current working directory to access the  file.
   \end{tight_itemize}
-For the purposes of this CRM, apply the keep it simple silly (\textbf{KISS}) principle and keep all control files in the same working directory where the CRM is executing.
+For the purposes of this CRM, apply the keep it simple silly (\textbf{KISS}) principle and keep all control files in the same working directory where the CRM program is executing.
 }
-\MyColorBoxBlue{Not all base64 encoders work the same.}{All encoders return a base64 representation of the source characters.  But the length of the returned lines may vary.  A base64 encoded string may span multiple lines.  The only way to ensure a complete base64 line is read, is to read and append lines until an \textbf{ending marker} is read.}
+\MyColorBoxBlue{Not all base64 encoders work the same.}{All encoders return a base64 representation of the source characters.  A base64 encoded string may span multiple lines. But the length of the returned lines may vary.   The only way to ensure a complete base64 line is read, is to read and append lines until an \textbf{control ending marker} is read.}
 \renewcommand{\MyTempCommand}[3]{#1 & #2 & #3}
 \clearpage
 \subsection{System control\label{sec:control}}
@@ -36,7 +36,7 @@ The CRM will be able to run in many different directories, persistently store da
   \MyCaption{CRM system commands.}{A list of system level commands, their beginning and ending markers, and associated base64 encoded data.}{tbl:system}
   \begin{tabular}{l p{0.5\textwidth} l}
     \MyHline
-    \textbf{Starting} & \textbf{Base64} & \textbf{Ending}\\
+    \textbf{Starting} & \textbf{Plain Text} & \textbf{Ending}\\
     \textbf{Marker} & \textbf{Data} & \textbf{Marker}\\
     \hline
     \MyTempCommand{$<$System$>$}{A group marker to delimit where data to create or manage a database begins and ends.  Only system commands are recognized in between these markers.}{$</$System$>$}\\
@@ -44,17 +44,17 @@ The CRM will be able to run in many different directories, persistently store da
     \MyAlsoCommandTwo\\
     \MyTempCommand{$<$DBFileName$>$}{The name of the file where the database is persisted.}{$</$DBFileName$>$}\\
     \MyTempCommand{$<$Delete$>$}{The name of the database file to be deleted.}{$</$Delete$>$}\\
-    \MyTempCommand{$<$Exit$>$}{Terminate the current CRM process. If the field is not \textbf{NULL} then output the base64 encoded termination message.}{$</$Exit$>$}\\
-    \MyTempCommand{$<$Output$>$}{Output retrieved CRM records, default to all records, possibly sorted. Sort directives are cumulative.}{$</$Output$>$}\\
-    \MyTempCommand{$<$Save$>$}{Save the current database to where it should be persisted. If the field is NULL by default save to the current database file.}{$</$Save$>$}\\
-    \MyTempCommand{$<$Sort$>$}{Field used to sort CRM records. All sorts are cumulative, and there may be more than one. }{$</$Sort$>$}\\
+    \MyTempCommand{$<$Exit$>$}{Terminate the current CRM process. If the field is not \textbf{NULL} then output the  termination message.}{$</$Exit$>$}\\
+    \MyTempCommand{$<$Output$>$}{Output retrieved CRM records, default to all records.}{$</$Output$>$}\\
+    \MyTempCommand{$<$Save$>$}{Save the current database to where it should be persisted. If the field is NULL save to the current database file.}{$</$Save$>$}\\
+    \MyTempCommand{$<$Sort$>$}{Field used to sort CRM records. There may be more than one Sort directive.  All sorts are cumulative. }{$</$Sort$>$}\\
     \MyTempCommand{$<$Trace$>$}{Turn trace commands ``ON'' or ``OFF'' to track CRM operations.}{$</$Trace$>$}\\
     \MyHline
   \end{tabular}
 \end{table}
 \clearpage
 \subsection{Creating data\label{sec:create}}
-Data must be ``created'' in a database for it to be of much use\MyTableReference{tbl:create}.
+Data must be ``created'' in a database for it to be of much use\MyTableReference{tbl:create}.  Creating a CRM data record will result in a unique identifier that can be used by the other \textbf{CRUD} operations.  Duplicate entries will result in different identifiers.
 \begin{table}[h]
   \centering
   \MyCaption{\textbf{C}reation data commands.}{A list of data  level commands, their beginning and ending markers, and associated base64 encoded data.}{tbl:create}
@@ -66,33 +66,33 @@ Data must be ``created'' in a database for it to be of much use\MyTableReference
     \MyTempCommand{$<$Create$>$}{A group marker to delimit where data to create a CRM record begins and ends.  Only \textbf{C}reation commands are recognized in between these markers.}{$</$Create$>$}\\
     \MyHline
     \MyAlsoCommandTwo\\
-    \MyTempCommand{$<$GivenName$>$}{Given name, may be NULL, or contain non-ASCII characters.}{$</$GivenName$>$}\\
-    \MyTempCommand{$<$PostCode$>$}{May be NULL, ASCII,or contain non-ASCII characters.}{$</$PostCode$>$}\\
-    \MyTempCommand{$<$Surname$>$}{Family name, may be NULL, or contain non-ASCII characters.}{$</$Surname$>$}\\
-    \MyTempCommand{$<$Telephone$>$}{May be NULL, or digits, and/or mathematical operator symbols.}{$</$Telephone$>$}\\
+    \MyTempCommand{$<$GivenName$>$}{Given name may be NULL, ASCII, or contain non-ASCII characters.}{$</$GivenName$>$}\\
+    \MyTempCommand{$<$PostCode$>$}{Post code may be NULL, ASCII, or contain non-ASCII characters.}{$</$PostCode$>$}\\
+    \MyTempCommand{$<$Surname$>$}{Family name may be NULL, ASCII, or contain non-ASCII characters.}{$</$Surname$>$}\\
+    \MyTempCommand{$<$Telephone$>$}{Phone number may be NULL, ASCII, or contain non-ASCII characters.}{$</$Telephone$>$}\\
     \MyHline
   \end{tabular}
 \end{table}
-Creating a CRM data record will result in a unique identifier that can be used by the other \textbf{CRUD} operations.  Duplicate entries will result in different identifiers.
+
 \clearpage
 \subsection{Retrieving data\label{sec:retrieve}}
-Data must be ``retrieved'' from a database for it to be of much use\MyTableReference{tbl:retrieve}.  In this context ``retrieved'' means that a record is identified for further processing (e.g., sorting, outputing, deleting, etc.).  If the identifier is valid, then the entire record is returned, otherwise an error message is returned.  Each field (if used), is used to ``search'' the current database for records that are an exact match for the field.  Successive fields will refine the search based on the previously retrieved records.  In this way, the entire database is searched the first time, then a subset is searched, then yet another subset is searched, and so on until all the search fields are processed.  At the end of the processing, 0 or more CRMIDs are returned that match the search criteria.
+Data must be ``retrieved'' from a database for it to be of much use\MyTableReference{tbl:retrieve}.  In this context ``retrieved'' means that a record is identified for further processing (e.g., sorting, outputting, deleting, etc.).  If the identifier is valid, then the entire record is returned, otherwise an error message is returned.  Each field (if used), is used to ``search'' the current database for records that are an exact match for the field.  Successive fields will refine the search based on the previously retrieved records.  In this way, the entire database is searched the first time, then a subset is searched, then yet another subset is searched, and so on until all the search fields are processed.  At the end of the processing, 0 or more CRMIDs are returned that match the search criteria.
 \begin{table}[h]
   \centering
   \MyCaption{\textbf{R}etieve commands.}{A list of system level commands, their beginning and ending markers, and associated base64 encoded data. Only \textbf{R}etrieve commands are recognized in between these markers.}{tbl:retrieve}
   \begin{tabular}{l p{0.5\textwidth} l}
     \MyHline
-    \textbf{Starting} & \textbf{Mixed} & \textbf{Ending}\\
+    \textbf{Starting} & \textbf{Mixed base64 and plain text} & \textbf{Ending}\\
     \textbf{Marker} & \textbf{Data} & \textbf{Marker}\\
     \hline
     \MyTempCommand{$<$Retrieve$>$}{A group marker to delimit where data to retrieve a CRM  record begins and ends.  Only \textbf{R}etrieve commands are recognized in between these markers.}{$</$Retrieve$>$}\\
     \MyHline
     \MyAlsoCommandTwo\\
     \MyAlsoCommand\\
-    \MyTempCommand{$<$GivenName$>$}{Given name, may be NULL, or contain non-ASCII characters.}{$</$GivenName$>$}\\
-    \MyTempCommand{$<$PostCode$>$}{May be NULL, ASCII,or contain non-ASCII characters.}{$</$PostCode$>$}\\
-    \MyTempCommand{$<$Surname$>$}{Family name, may be NULL, or contain non-ASCII characters.}{$</$Surname$>$}\\
-    \MyTempCommand{$<$Telephone$>$}{May be NULL, or digits, and/or mathematical operator symbols.}{$</$Telephone$>$}\\
+    \MyTempCommand{$<$GivenName$>$}{Given name may be NULL, ASCII, or contain non-ASCII characters.}{$</$GivenName$>$}\\
+    \MyTempCommand{$<$PostCode$>$}{Post code may be NULL, ASCII, or contain non-ASCII characters.}{$</$PostCode$>$}\\
+    \MyTempCommand{$<$Surname$>$}{Family name may be NULL, ASCII, or contain non-ASCII characters.}{$</$Surname$>$}\\
+    \MyTempCommand{$<$Telephone$>$}{Phone number may be NULL, ASCII, or contain non-ASCII characters.}{$</$Telephone$>$}\\
     \MyHline
   \end{tabular}
 \end{table}
@@ -121,16 +121,16 @@ Data in a database is dynamic and must be changed from time to time for it to be
     \MyAlsoCommandTwo\\    
     \MyAlsoCommand\\
     &(The same commands used to create a record are used to update the record.)& \\
-    \MyTempCommand{$<$GivenName$>$}{Given name, may be NULL, or contain non-ASCII characters.}{$</$GivenName$>$}\\
-    \MyTempCommand{$<$PostCode$>$}{May be NULL, ASCII,or contain non-ASCII characters.}{$</$PostCode$>$}\\
-    \MyTempCommand{$<$Surname$>$}{Family name, may be NULL, or contain non-ASCII characters.}{$</$Surname$>$}\\
-    \MyTempCommand{$<$Telephone$>$}{May be NULL, or digits, and/or mathematical operator symbols.}{$</$Telephone$>$}\\
+    \MyTempCommand{$<$GivenName$>$}{Given name may be NULL, ASCII, or contain non-ASCII characters.}{$</$GivenName$>$}\\
+    \MyTempCommand{$<$PostCode$>$}{Post code may be NULL, ASCII, or contain non-ASCII characters.}{$</$PostCode$>$}\\
+    \MyTempCommand{$<$Surname$>$}{Family name may be NULL, ASCII, or contain non-ASCII characters.}{$</$Surname$>$}\\
+    \MyTempCommand{$<$Telephone$>$}{Phone number may be NULL, ASCII, or contain non-ASCII characters.}{$</$Telephone$>$}\\
     \MyHline
   \end{tabular}
 \end{table}
 \clearpage
 \subsection{Deleting data\label{sec:delete}}
-Data in a database must be ``deleted'' from a database for it to be of much use\MyTableReference{tbl:delete}.
+Data in a database must be ``deleted'' from a database for it to be of much use\MyTableReference{tbl:delete}.  A CRM record can be selected for deletion by an explicit CRMID, or by identifying CRM records that match the search criteria given between the $<$Delete$>$ and $</$Delete$>$ markers.
 \begin{table}[h]
   \centering
   \MyCaption{\textbf{D}elete commands.}{A list of delete commands, their beginning and ending markers, and associated  data.}{tbl:delete}
@@ -143,10 +143,10 @@ Data in a database must be ``deleted'' from a database for it to be of much use\
     \MyHline
     \MyAlsoCommandTwo\\    
     \MyAlsoCommand\\
-    \MyTempCommand{$<$GivenName$>$}{Given name, may be NULL, or contain non-ASCII characters.}{$</$GivenName$>$}\\
-    \MyTempCommand{$<$PostCode$>$}{May be NULL, ASCII,or contain non-ASCII characters.}{$</$PostCode$>$}\\
-    \MyTempCommand{$<$Surname$>$}{Family name, may be NULL, or contain non-ASCII characters.}{$</$Surname$>$}\\
-    \MyTempCommand{$<$Telephone$>$}{May be NULL, or digits, and/or mathematical operator symbols.}{$</$Telephone$>$}\\
+    \MyTempCommand{$<$GivenName$>$}{Given name may be NULL, ASCII, or contain non-ASCII characters.}{$</$GivenName$>$}\\
+    \MyTempCommand{$<$PostCode$>$}{Post code may be NULL, ASCII, or contain non-ASCII characters.}{$</$PostCode$>$}\\
+    \MyTempCommand{$<$Surname$>$}{Family name may be NULL, ASCII, or contain non-ASCII characters.}{$</$Surname$>$}\\
+    \MyTempCommand{$<$Telephone$>$}{Phone number may be NULL, ASCII, or contain non-ASCII characters.}{$</$Telephone$>$}\\
     \MyHline
   \end{tabular}
 \end{table}
