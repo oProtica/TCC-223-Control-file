@@ -7,10 +7,6 @@ Q1NDLTIyMy1DUk1fZGF0YWJhc2U=
 </ Save >
 < Exit >
 VGhpcyBsaW5lIGlzIHdyaXR0ZW4gdXNpbmcgQ3JlYXRlU2FtcGxlQ29udHJvbEZpbGUu
-fuck 
-fuck 
-fickasdiuhas
-sdf
 </ Exit >
 </ System >
 < Create >
@@ -18,7 +14,7 @@ sdf
 Q2FydGxlZGdl
 </ Surname >
 < GivenName >
-Q2hhcmxlcw ==
+Q2hhcmxlcw==
 </ GivenName >
 < Telephone >
 KzEtNzU3LTYzMzI1ODE =
