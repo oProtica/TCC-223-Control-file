@@ -28,7 +28,10 @@ public class CRMParser {
         List<String> lines = read(fileName);
         for (String line : lines) {
             String trimmedLine = line.trim();
-
+            // skip over empty lines and comments
+            if (trimmedLine.isEmpty() || trimmedLine.startsWith("#")) {
+                continue;
+            }
             if (trimmedLine.startsWith("<") && !trimmedLine.startsWith("</")) {
                 // start Marker
                 Node node = new Node();
