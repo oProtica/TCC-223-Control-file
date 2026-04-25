@@ -63,7 +63,7 @@ public class SystemHandler implements SectionHandler {
                     break;
             }
 
-            System.out.println("\tSystem Child node: " + child.name + " with content: " + child.content);
+            System.out.println("\tSystem Child node: " + child.name + " with content: " + child.content); // debug
         }
     }
 }
