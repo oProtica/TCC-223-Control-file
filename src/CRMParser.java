@@ -9,19 +9,23 @@ import java.util.List;
 import java.util.Map;
 
 public class CRMParser {
-
-    private CRMState state = new CRMState();
+    private CRMController controller;
 
     private Deque<Node> sectionStack = new ArrayDeque<>(); // stack to manage nested sections
     private Map<String, SectionHandler> handlers = new HashMap<>(); // tag to handler class mapping
 
-    public CRMParser() {
+    public CRMParser(CRMController controller) {
+        this.controller = controller;
         handlers.put("<System>", new SystemHandler());
         handlers.put("<Create>", new CreateHandler());
-        handlers.put("<Retrieve>", new RetrieveHandler());
+        // handlers.put("<Retrieve>", new RetrieveHandler());
         handlers.put("<Update>", new UpdateHandler());
-        handlers.put("<Delete>", new DeleteHandler());
+        // handlers.put("<Delete>", new DeleteHandler());
 
+    }
+
+    public CRMController getController() {
+        return controller;
     }
 
     public void parse(String fileName) {
