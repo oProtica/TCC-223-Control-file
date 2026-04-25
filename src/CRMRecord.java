@@ -1,23 +1,47 @@
 public class CRMRecord {
 
-    private final String id;
     private String givenName;
     private String surname;
     private String telephone;
     private String postcode;
 
-    public CRMRecord(String id, String givenName, String surname,
+    public CRMRecord(String givenName, String surname,
             String telephone, String postcode) {
-        this.id = id;
         this.givenName = givenName;
         this.surname = surname;
         this.telephone = telephone;
         this.postcode = postcode;
     }
 
-    public String getId() {
-        return id;
+    public String getGivenName() {
+        return givenName;
     }
 
-    // get/set
+    public String getSurname() {
+        return surname;
+    }
+
+    public String getTelephone() {
+        return telephone;
+    }
+
+    public String getPostcode() {
+        return postcode;
+    }
+
+    public void setGivenName(String givenName) {
+        this.givenName = givenName;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
+    }
+
+    public void setPostcode(String postcode) {
+        this.postcode = postcode;
+    }
 }
