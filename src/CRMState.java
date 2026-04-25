@@ -48,6 +48,10 @@ public class CRMState implements Serializable {
     public CRMRecord delete(String id) {
         return records.remove(id);
     }
+    
+    public Map<String, CRMRecord> getRecords() { // method added so handlers can
+        return records;                          // retrieve records from CRMState
+    }
 
     // TODO: retrieve record, update record, delete record
     // TODO: Ideally optimize newID to not make every create operation O(n).

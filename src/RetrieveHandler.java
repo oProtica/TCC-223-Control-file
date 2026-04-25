@@ -1,99 +1,90 @@
-import crud.ArrayList;
-import crud.List;
-import crud.Node;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class RetrieveHandler implements SectionHandler {
+
     @Override
     public void handle(Node node, CRMParser parser) {
-    	
-    	 System.out.println("Retrieve node: " + node.name);
-    	
-    	 List<String> ids = new ArrayList<>();
 
-         String givenName = null;
-         String surname = null;
-         String postCode = null;
-         String telephone = null;
+        String id = null;
+        String givenName = null;
+        String surname = null;
+        String postCode = null;
+        String telephone = null;
 
-         // get values
-         for (Node child : node.children) {
+        // get values
+        for (Node child : node.children) {
 
-             String value = "";
-             if (!child.content.isEmpty()) {
-                 value = child.content.get(0);
-             }
+            String value = "";
+            if (!child.content.isEmpty()) {
+                value = child.content.get(0);
+            }
 
-             if (child.name.equals("<CRMID>")) {
-                 ids.add(value);
-             } else if (child.name.equals("<GivenName>")) {
-                 givenName = value;
-             } else if (child.name.equals("<Surname>")) {
-                 surname = value;
-             } else if (child.name.equals("<PostCode>")) {
-                 postCode = value;
-             } else if (child.name.equals("<Telephone>")) {
-                 telephone = value;
-             }
-         }
+            switch (child.name) {
 
-         List<Record> database = parser.getState().getDatabase(); // change based on how to get data from CRMState
-         List<Record> results = new ArrayList<>();
+                case "<CRMID>":
+                    id = value;
+                    break;
 
-         // search through each element of array
-         for (Record r : database) {
+                case "<GivenName>":
+                    givenName = value;
+                    break;
 
-             boolean match = true;
+                case "<Surname>":
+                    surname = value;
+                    break;
 
-             // check CRMID
-             if (!ids.isEmpty()) {
-                 boolean idMatch = false;
-                 for (String id : ids) {
-                     if (r.crmID.equals(id)) {
-                         idMatch = true;
-                         break;
-                     }
-                 }
-                 if (!idMatch) {
-                     match = false;
-                 }
-             }
+                case "<PostCode>":
+                    postCode = value;
+                    break;
 
-             // check every value and make sure they match
-             if (match && givenName != null) {
-                 if (!r.givenName.equals(givenName)) {
-                     match = false;
-                 }
-             }
+                case "<Telephone>":
+                    telephone = value;
+                    break;
+            }
+        }
+        //get records from CRMState
+        CRMState state = parser.getController().getState();
+        Map<String, CRMRecord> records = state.getRecords();
 
-             if (match && surname != null) {
-                 if (!r.surname.equals(surname)) {
-                     match = false;
-                 }
-             }
+        List<CRMRecord> results = new ArrayList<>();
 
-             if (match && postCode != null) {
-                 if (!r.postCode.equals(postCode)) {
-                     match = false;
-                 }
-             }
+        // search for match
+        for (String crmID : records.keySet()) {
 
-             if (match && telephone != null) {
-                 if (!r.telephone.equals(telephone)) {
-                     match = false;
-                 }
-             }
+            CRMRecord r = records.get(crmID);
 
-             if (match) {
-                 results.add(r);
-             }
-         }
+            boolean match = true;
 
-         if (results.size() == 0) {
-             System.out.println("No records found.");
-         } else {
-             for (Record r : results) {
-                 System.out.println(r);
-             }
-         }
-     }
- }       
+            if (id != null && !id.equals(crmID)) {
+                match = false;
+            }
+
+            if (givenName != null && !givenName.equals(r.getGivenName())) {
+                match = false;
+            }
+
+            if (surname != null && !surname.equals(r.getSurname())) {
+                match = false;
+            }
+
+            if (postCode != null && !postCode.equals(r.getPostcode())) {
+                match = false;
+            }
+
+            if (telephone != null && !telephone.equals(r.getTelephone())) {
+                match = false;
+            }
+            // print info if match
+            if (match) {
+                results.add(r);
+                System.out.println("CRMID is " crmID + ", data attached to this ID: " + r);
+            }
+        }
+        // print statement if list is empty
+        if (results.isEmpty()) {
+            System.out.println("No records found.");
+        }
+    }
+}
