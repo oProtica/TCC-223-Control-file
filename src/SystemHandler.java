@@ -2,39 +2,68 @@ public class SystemHandler implements SectionHandler {
     @Override
     public void handle(Node node, CRMParser parser) {
         System.out.println("System node: " + node.name);
+
+        CRMController controller = parser.getController();
+
         for (Node child : node.children) {
             switch (child.name) {
                 case "<Comment>":
+                    // Done - print plain text comments to STDOUT.
                     if (!child.content.isEmpty()) {
-                        System.out.println(child.content.get(0));
+                        String comment = child.content.get(0);
+                        System.out.println(comment);
                     }
                     break;
                 case "<DBFileName>":
-                    System.out.println("System: DBfilename");
+                    // Done - Initializes CRM state from a specified file and sets the DBFIleName in
+                    // the controller.
+                    // If content is empty, it will initialize the state (which will not be saved to
+                    // a file until a Save command.)
+                    System.out.println("SystemCMD: DBfilename"); // debug
+                    if (!child.content.isEmpty()) {
+                        String fileName = child.content.get(0);
+
+                        controller.initState(fileName);
+                    }
                     break;
                 case "<Delete>":
-                    System.out.println("System: Delete");
+                    // TODO: Delete database files - handled by CRMStorage.
+                    System.out.println("SystemCMD: Delete");
                     break;
                 case "<Exit>":
-                    System.out.println("System: Exit");
+                    // Done
+                    if (!child.content.isEmpty()) {
+                        String exitMessage = child.content.get(0);
+                        System.out.println(exitMessage);
+                        System.exit(0);
+                    } else {
+                        System.exit(0);
+                    }
                     break;
                 case "<Output>":
-                    System.out.println("System: Output");
+                    // TODO: Output retrieved CRM records, default to all records.
+                    System.out.println("SystemCMD: Output");
                     break;
                 case "<Save>":
-                    System.out.println("System: Save");
+                    // Possibly Done
+                    System.out.println("Saving CRM State...");
+                    // if content is provided use it as the filename, otherwise use current DB
+                    // filename.
+                    String fileName = child.content.isEmpty() ? controller.getDBFileName() : child.content.get(0);
+                    CRMStorage.save(fileName, controller.getState());
                     break;
                 case "<Sort>":
-                    System.out.println("System: Sort");
+                    // TODO: There may be more than one Sort directive. All sorts are cumulative.
+                    System.out.println("SystemCMD: Sort");
                     break;
                 case "<Trace>":
-                    System.out.println("System: Trace");
+                    // TODO: Turn trace commands “ON” or “OFF” to track CRM operations.
+                    // I am not sure what this means exactly.
+                    System.out.println("SystemCMD: Trace");
                     break;
             }
 
             System.out.println("\tSystem Child node: " + child.name + " with content: " + child.content);
-            // System.out.println("Decoded: " + Base64Helper.decode(child.content.get(0)));
-            // // test decoding content
         }
     }
 }
