@@ -1,11 +1,94 @@
+import crud.ArrayList;
+import crud.List;
+import crud.Node;
+
 public class DeleteHandler implements SectionHandler {
     @Override
     public void handle(Node node, CRMParser parser) {
-        System.out.println("Delete node: " + node.name);
+    	
+    	System.out.println("Delete node: " + node.name);
+    	
+    	List<String> ids = new ArrayList<>();
+
+        String givenName = null;
+        String surname = null;
+        String postCode = null;
+        String telephone = null;
+
+        // get values 
         for (Node child : node.children) {
-            System.out.println("\tDelete Child node: " + child.name + " with content: " + child.content);
-            // System.out.println("Decoded: " + Base64Helper.decode(child.content.get(0)));
-            // // test decoding content
+
+            String value = "";
+            if (!child.content.isEmpty()) {
+                value = child.content.get(0);
+            }
+
+            if (child.name.equals("<CRMID>")) {
+                ids.add(value);
+            } else if (child.name.equals("<GivenName>")) {
+                givenName = value;
+            } else if (child.name.equals("<Surname>")) {
+                surname = value;
+            } else if (child.name.equals("<PostCode>")) {
+                postCode = value;
+            } else if (child.name.equals("<Telephone>")) {
+                telephone = value;
+            }
         }
+
+        List<Record> database = parser.getState().getDatabase(); // change based on how to get data from CRMState
+
+        for (int i = 0; i < database.size(); i++) {
+
+            Record r = database.get(i);
+            boolean match = true;
+
+            // check CRMID
+            if (!ids.isEmpty()) {
+                boolean idMatch = false;
+                for (String id : ids) {
+                    if (r.crmID.equals(id)) {
+                        idMatch = true;
+                        break;
+                    }
+                }
+                if (!idMatch) {
+                    match = false;
+                }
+            }
+
+            // check every value and make sure they match
+            if (match && givenName != null) {
+                if (!r.givenName.equals(givenName)) {
+                    match = false;
+                }
+            }
+
+            if (match && surname != null) {
+                if (!r.surname.equals(surname)) {
+                    match = false;
+                }
+            }
+
+            if (match && postCode != null) {
+                if (!r.postCode.equals(postCode)) {
+                    match = false;
+                }
+            }
+
+            if (match && telephone != null) {
+                if (!r.telephone.equals(telephone)) {
+                    match = false;
+                }
+            }
+
+            // Delete if everything matches
+            if (match) {
+                database.remove(i);
+                i--;
+            }
+        }
+
+        System.out.println("Node has been deleted.");
     }
 }
