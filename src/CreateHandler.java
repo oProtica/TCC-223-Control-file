@@ -1,11 +1,47 @@
 public class CreateHandler implements SectionHandler {
+    // Done
     @Override
     public void handle(Node node, CRMParser parser) {
-        System.out.println("Create node: " + node.name);
+        String givenName = null;
+        String surname = null;
+        String postCode = null;
+        String telephone = null;
+
         for (Node child : node.children) {
-            System.out.println("\tCreate Child node: " + child.name + " with content: " + child.content);
-            // System.out.println("Decoded: " + Base64Helper.decode(child.content.get(0)));
-            // // test decoding content
+            // convert all child content from base64 if it exists and make it referencable
+            // by value.
+            String value = child.content.isEmpty() ? null : child.content.get(0);
+            if (value != null) {
+                value = Base64Helper.decode(value);
+            }
+            switch (child.name) {
+                case "<Comment>":
+                    if (!child.content.isEmpty()) {
+                        String comment = child.content.get(0);
+                        System.out.println(comment);
+                    }
+                    break;
+                case "<GivenName>":
+                    System.out.println("GivenName: " + value);
+                    givenName = value;
+                    break;
+                case "<PostCode>":
+                    System.out.println("PostCode: " + value);
+                    postCode = value;
+                    break;
+                case "<Surname>":
+                    System.out.println("Surname: " + value);
+                    surname = value;
+                    break;
+                case "<Telephone>":
+                    System.out.println("Telephone: " + value);
+                    telephone = value;
+                    break;
+            }
         }
+        CRMRecord record = new CRMRecord(givenName, surname, telephone, postCode);
+        CRMState state = parser.getController().getState();
+        String id = state.create(record);
+        System.out.println("Created record with CRMID: " + id);
     }
 }
