@@ -1,6 +1,15 @@
+import java.util.Scanner;
+
 public class Main {
     public static void main(String[] args) {
-        CRMParser parser = new CRMParser();
-        parser.parse("sample.txt");
+        try (Scanner scanner = new Scanner(System.in)) {
+            System.out.print("Enter the name of the CRM control file: ");
+            String controlFileName = scanner.nextLine();
+            controlFileName = controlFileName.isEmpty() ? "sample.txt" : controlFileName; // default to sample.txt
+            System.out.println("Parsing control file: " + controlFileName);
+            CRMController controller = new CRMController();
+            controller.run(controlFileName);
+        }
+
     }
 }
