@@ -22,19 +22,15 @@ public class CreateHandler implements SectionHandler {
                     }
                     break;
                 case "<GivenName>":
-                    System.out.println("GivenName: " + value);
                     givenName = value;
                     break;
                 case "<PostCode>":
-                    System.out.println("PostCode: " + value);
                     postCode = value;
                     break;
                 case "<Surname>":
-                    System.out.println("Surname: " + value);
                     surname = value;
                     break;
                 case "<Telephone>":
-                    System.out.println("Telephone: " + value);
                     telephone = value;
                     break;
             }
