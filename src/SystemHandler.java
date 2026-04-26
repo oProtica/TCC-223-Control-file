@@ -17,7 +17,6 @@ public class SystemHandler implements SectionHandler {
                     // the controller.
                     // If content is empty, it will initialize the state (which will not be saved to
                     // a file until a Save command.)
-                    System.out.println("SystemCMD: DBfilename"); // debug
                     if (!child.content.isEmpty()) {
                         String fileName = child.content.get(0);
 
