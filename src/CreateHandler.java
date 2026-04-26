@@ -8,17 +8,16 @@ public class CreateHandler implements SectionHandler {
         String telephone = null;
 
         for (Node child : node.children) {
-            // convert all child content from base64 if it exists and make it referencable
-            // by value.
+            // convert all child content (except <Comment>) from base64 if it exists and
+            // make it referencable by value.
             String value = child.content.isEmpty() ? null : child.content.get(0);
-            if (value != null) {
+            if (value != null && !child.name.equals("<Comment>")) {
                 value = Base64Helper.decode(value);
             }
             switch (child.name) {
                 case "<Comment>":
-                    if (!child.content.isEmpty()) {
-                        String comment = child.content.get(0);
-                        System.out.println(comment);
+                    if (value != null) {
+                        System.out.println(value);
                     }
                     break;
                 case "<GivenName>":

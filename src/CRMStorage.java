@@ -24,6 +24,7 @@ public class CRMStorage {
     }
 
     public static void delete(String fileName) {
-        // todo: deleting data files
+        // todo: implement deleting data files - used by <Delete> system command.
+        System.out.println("CRMStorage: Delete command is not yet implemented.");
     }
 }

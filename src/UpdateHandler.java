@@ -8,10 +8,12 @@ public class UpdateHandler implements SectionHandler {
         String telephone = null;
 
         for (Node child : node.children) {
-            // convert all child content (except <CRMID>) from base64 if it exists and make
+            // convert all child content (except <CRMID> & <Comment> which are plain text)
+            // from base64 if it exists and make
             // it referencable by value.
             String value = child.content.isEmpty() ? null : child.content.get(0);
-            if (value != null && !child.name.equals("<CRMID>")) {
+            // override value with decoded base64.
+            if (value != null && !child.name.equals("<CRMID>") && !child.name.equals("<Comment>")) {
                 value = Base64Helper.decode(value);
             }
             switch (child.name) {
@@ -19,9 +21,8 @@ public class UpdateHandler implements SectionHandler {
                     id = value;
                     break;
                 case "<Comment>":
-                    if (!child.content.isEmpty()) {
-                        String comment = child.content.get(0);
-                        System.out.println(comment);
+                    if (value != null) {
+                        System.out.println(value);
                     }
                     break;
                 case "<GivenName>":
@@ -38,9 +39,15 @@ public class UpdateHandler implements SectionHandler {
                     break;
             }
         }
+        // make sure CRMID is provided.
+        if (id == null) {
+            System.out.println("Error: Missing CRMID; All other fields are optional.");
+            return;
+        }
         CRMRecord updatedRecord = new CRMRecord(givenName, surname, telephone, postCode);
         CRMState state = parser.getController().getState();
         state.update(id, updatedRecord);
+
         System.out.println("Updated record with CRMID: " + id);
     }
 }

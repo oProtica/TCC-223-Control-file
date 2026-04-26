@@ -30,7 +30,11 @@ public class RetrieveHandler implements SectionHandler {
                 case "<GivenName>":
                     givenName = value;
                     break;
-
+                case "<Comment>":
+                    if (value != null) {
+                        System.out.println(value);
+                    }
+                    break;
                 case "<Surname>":
                     surname = value;
                     break;
@@ -44,7 +48,7 @@ public class RetrieveHandler implements SectionHandler {
                     break;
             }
         }
-        //get records from CRMState
+        // get records from CRMState
         CRMState state = parser.getController().getState();
         Map<String, CRMRecord> records = state.getRecords();
 
@@ -79,7 +83,7 @@ public class RetrieveHandler implements SectionHandler {
             // print info if match
             if (match) {
                 results.add(r);
-                System.out.println("CRMID is " crmID + ", data attached to this ID: " + r);
+                System.out.println("CRMID is " + crmID + ", data attached to this ID: " + r);
             }
         }
         // print statement if list is empty

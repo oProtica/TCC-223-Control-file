@@ -22,6 +22,11 @@ public class DeleteHandler implements SectionHandler {
             }
 
             switch (child.name) {
+                case "<Comment>":
+                    if (value != null) {
+                        System.out.println(value);
+                    }
+                    break;
 
                 case "<CRMID>":
                     id = value;
