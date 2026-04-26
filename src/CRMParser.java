@@ -18,9 +18,9 @@ public class CRMParser {
         this.controller = controller;
         handlers.put("<System>", new SystemHandler());
         handlers.put("<Create>", new CreateHandler());
-        // handlers.put("<Retrieve>", new RetrieveHandler());
+        handlers.put("<Retrieve>", new RetrieveHandler());
         handlers.put("<Update>", new UpdateHandler());
-        // handlers.put("<Delete>", new DeleteHandler());
+        handlers.put("<Delete>", new DeleteHandler());
 
     }
 
