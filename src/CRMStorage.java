@@ -6,21 +6,19 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 public class CRMStorage {
-    public static void save(String fileName, CRMState state) {
+
+    public static String save(String fileName, CRMState state) {
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fileName))) {
             out.writeObject(state);
-            System.out.println("CRM state saved to file: " + fileName);
+            return null; // successful
         } catch (IOException ex) {
-            System.out.println("IOException is caught while saving CRM state: " + ex.getMessage());
+            return ex.getMessage();
         }
     }
 
-    public static CRMState load(String fileName) {
+    public static CRMState load(String fileName) throws Exception {
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(fileName))) {
             return (CRMState) in.readObject();
-        } catch (Exception ex) {
-            System.out.println("CRMStorage: Failed to load CRM data file: " + ex.getMessage());
-            return null;
         }
     }
 
