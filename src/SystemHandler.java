@@ -27,9 +27,9 @@ public class SystemHandler implements SectionHandler {
                 case "<Delete>":
                     if (value != null) {
                         if (CRMStorage.delete(value)) {
-                            System.out.println("Deleted file: " + value);
+                            controller.trace("Deleted file: " + value);
                         } else {
-                            System.out.println("Failed to delete file: " + value);
+                            controller.trace("Failed to delete file: " + value);
                         }
                     }
                     break;
@@ -46,20 +46,26 @@ public class SystemHandler implements SectionHandler {
                     System.out.println("<Output> command is not yet implemented.");
                     break;
                 case "<Save>":
-                    System.out.println("Saving CRM State...");
+                    controller.trace("Saving CRM State...");
                     // if content is provided use it as the filename, otherwise use current DB
                     // filename.
-                    String fileName = child.content.isEmpty() ? controller.getDBFileName() : child.content.get(0);
-                    CRMStorage.save(fileName, controller.getState());
+                    String fileName = child.content.isEmpty() ? controller.getDBFileName() : value;
+                    String error = CRMStorage.save(fileName, controller.getState());
+                    if (error == null) {
+                        controller.trace("CRM state saved to file: " + fileName + "\n");
+                    } else {
+                        controller.trace("Failed to save CRM state to file: " + fileName + "; Error: " + error + "\n");
+                    }
                     break;
                 case "<Sort>":
                     // TODO: There may be more than one Sort directive. All sorts are cumulative.
                     System.out.println("<Sort> command is not yet implemented.");
                     break;
                 case "<Trace>":
-                    // TODO: Turn trace commands “ON” or “OFF” to track CRM operations.
-                    // I am not sure what this means exactly.
-                    System.out.println("<Trace> command is not yet implemented.");
+                    // defaults to off.
+                    if (controller.toggleTrace()) {
+                        controller.trace("Trace enabled.\n");
+                    }
                     break;
             }
         }
