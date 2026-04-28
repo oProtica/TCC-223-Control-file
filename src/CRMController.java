@@ -2,6 +2,7 @@ public class CRMController {
     private String DBFileName;
     private CRMState state;
     private CRMParser parser;
+    private boolean traceEnabled = false;
 
     public CRMController() {
         this.parser = new CRMParser(this);
@@ -39,6 +40,17 @@ public class CRMController {
 
     public void setDBFileName(String fileName) {
         DBFileName = fileName;
+    }
+
+    public boolean toggleTrace() {
+        traceEnabled = !traceEnabled;
+        return traceEnabled;
+    }
+
+    public void trace(String message) {
+        if (traceEnabled) {
+            System.out.println(message);
+        }
     }
 
     // execution related methods
