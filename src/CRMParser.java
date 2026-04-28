@@ -79,7 +79,7 @@ public class CRMParser {
         if (handler != null) {
             handler.handle(node, this);
         } else {
-            System.out.println("No handler for: " + node.name);
+            controller.trace("No handler for: " + node.name);
         }
     }
 }
