@@ -41,6 +41,6 @@ public class CreateHandler implements SectionHandler {
         CRMRecord record = new CRMRecord(givenName, surname, telephone, postCode);
         CRMState state = parser.getController().getState();
         String id = state.create(record);
-        System.out.println("Created record with CRMID: " + id);
+        parser.getController().trace("Created record with CRMID: " + id + "\n" + record);
     }
 }
