@@ -1,6 +1,7 @@
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class CRMState implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -17,6 +18,10 @@ public class CRMState implements Serializable {
 
         records.put(key, record);
         return key;
+    }
+
+    public Set<String> getAllIDs() {
+        return records.keySet();
     }
 
     public CRMRecord retrieve(String id) {
