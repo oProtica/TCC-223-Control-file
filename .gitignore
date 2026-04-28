@@ -1,4 +1,4 @@
-### IntelliJ IDEA ###
+### IntelliJ IDEA (used to generate this .gitignore file) ###
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
