@@ -16,7 +16,6 @@ public class CRMState implements Serializable {
         String key = String.valueOf(id);
 
         records.put(key, record);
-        System.out.println("Created record with GivenName: " + record.getGivenName());
         return key;
     }
 
@@ -53,8 +52,6 @@ public class CRMState implements Serializable {
         return records; // retrieve records from CRMState
     }
 
-    // TODO: retrieve record, update record, delete record
-    // TODO: Ideally optimize newID to not make every create operation O(n).
     private long newID() {
         long max = 0;
         for (String key : records.keySet()) {
