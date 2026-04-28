@@ -55,6 +55,7 @@ public class CRMController {
 
     // execution related methods
     public void run(String controlFileName) {
+        System.out.println("Parsing control file: " + controlFileName);
         parser.parse(controlFileName);
     }
 
