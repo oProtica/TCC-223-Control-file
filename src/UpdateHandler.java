@@ -13,7 +13,7 @@ public class UpdateHandler implements SectionHandler {
             if (!child.content.isEmpty()) {
                 value = String.join("", child.content);
             }
-            // decode base64 if not there is something to decode not in a <CRMID> or
+            // decode base64 if there is something to decode it is not in a <CRMID> or
             // <Comment> tag.
             if (value != null && !child.name.equals("<CRMID>") && !child.name.equals("<Comment>")) {
                 value = Base64Helper.decode(value);
