@@ -44,4 +44,10 @@ public class CRMRecord {
     public void setPostcode(String postcode) {
         this.postcode = postcode;
     }
+
+    @Override
+    public String toString() {
+        return "Given Name: " + givenName + "\nSurname: " + surname + "\nTelephone: " + telephone + "\nPostcode: "
+                + postcode;
+    }
 }
