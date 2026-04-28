@@ -1,6 +1,7 @@
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.File;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
@@ -23,8 +24,14 @@ public class CRMStorage {
         }
     }
 
-    public static void delete(String fileName) {
-        // todo: implement deleting data files - used by <Delete> system command.
-        System.out.println("CRMStorage: Delete command is not yet implemented.");
+    public static boolean delete(String fileName) {
+        File file = new File(fileName);
+
+        if (!file.exists()) {
+            return false;
+        }
+        // if and only if the file or directory is successfully deleted; false
+        // otherwise.
+        return file.delete();
     }
 }

@@ -4,33 +4,38 @@ public class SystemHandler implements SectionHandler {
         CRMController controller = parser.getController();
 
         for (Node child : node.children) {
+            String value = null;
+            if (!child.content.isEmpty()) {
+                value = String.join("", child.content);
+            }
             switch (child.name) {
                 case "<Comment>":
-                    // print plain text comments to STDOUT.
-                    if (!child.content.isEmpty()) {
-                        String comment = child.content.get(0);
-                        System.out.println(comment);
+                    if (value != null) {
+                        System.out.println(value);
                     }
                     break;
+
                 case "<DBFileName>":
                     // Initializes CRM state from a specified file and sets the DBFIleName in
                     // the controller.
                     // If content is empty, it will initialize the state (which will not be saved to
                     // a file until a Save command.)
                     if (!child.content.isEmpty()) {
-                        String fileName = child.content.get(0);
-
-                        controller.initState(fileName);
+                        controller.initState(value);
                     }
                     break;
                 case "<Delete>":
-                    // TODO: Delete database files - will be handled by CRMStorage.
-                    System.out.println("<Delete> command is not yet implemented.");
+                    if (value != null) {
+                        if (CRMStorage.delete(value)) {
+                            System.out.println("Deleted file: " + value);
+                        } else {
+                            System.out.println("Failed to delete file: " + value);
+                        }
+                    }
                     break;
                 case "<Exit>":
                     if (!child.content.isEmpty()) {
-                        String exitMessage = child.content.get(0);
-                        System.out.println(exitMessage);
+                        System.out.println(value);
                         System.exit(0);
                     } else {
                         System.exit(0);
