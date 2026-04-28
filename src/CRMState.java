@@ -24,10 +24,10 @@ public class CRMState implements Serializable {
         return records.get(id);
     }
 
-    public void update(String id, CRMRecord newRecord) {
+    public boolean update(String id, CRMRecord newRecord) {
         CRMRecord currentRecord = records.get(id);
         if (currentRecord == null) {
-            return; // Dont update anything if the record doesnt exist.
+            return false; // Dont update anything if the record doesnt exist.
         }
         if (newRecord.getGivenName() != null) {
             currentRecord.setGivenName(newRecord.getGivenName());
@@ -42,15 +42,15 @@ public class CRMState implements Serializable {
             currentRecord.setPostcode(newRecord.getPostcode());
         }
 
-        System.out.println("Updated givenname to " + currentRecord.getGivenName());
+        return true;
     }
 
     public CRMRecord delete(String id) {
         return records.remove(id);
     }
-    
+
     public Map<String, CRMRecord> getRecords() { // method added so handlers can
-        return records;                          // retrieve records from CRMState
+        return records; // retrieve records from CRMState
     }
 
     // TODO: retrieve record, update record, delete record
