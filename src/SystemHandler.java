@@ -42,8 +42,13 @@ public class SystemHandler implements SectionHandler {
                     }
                     break;
                 case "<Output>":
+                    CRMState state = controller.getState();
+                    if (state == null) {
+                        controller.trace("CRM state is not initialized. No records to output.");
+                    } else {
+                        controller.trace("Outputting all CRM records.");
+                    }
                     // TODO: Output retrieved CRM records, default to all records.
-                    System.out.println("<Output> command is not yet implemented.");
                     break;
                 case "<Save>":
                     controller.trace("Saving CRM State...");
