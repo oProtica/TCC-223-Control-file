@@ -48,6 +48,6 @@ public class CRMRecord {
     @Override
     public String toString() {
         return "Given Name: " + givenName + "\nSurname: " + surname + "\nTelephone: " + telephone + "\nPostcode: "
-                + postcode;
+                + postcode + "\n";
     }
 }
