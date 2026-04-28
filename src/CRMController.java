@@ -21,16 +21,15 @@ public class CRMController {
         if (state == null) {
             DBFileName = fileName;
 
-            CRMState loadedState = CRMStorage.load(fileName);
-            if (loadedState != null) {
-                state = loadedState; // set state to state loaded from file if it loads successfully.
-                System.out.println("Controller: Loaded CRM state from file: " + fileName);
-            } else {
+            try {
+                state = CRMStorage.load(fileName);
+                trace("Loaded CRM state from file: " + fileName);
+            } catch (Exception ex) {
                 state = new CRMState();
-                System.out.println("Controller: Initialized new CRM state. Failed to load from file: " + fileName);
+                trace("Initialized CRM state. Failed to load from file: " + fileName + "; Error: " + ex.getMessage());
             }
         } else {
-            System.out.println("Controller: CRM state is already initialized. Ignoring init command: ");
+            trace("CRM state already initialized. Skipping initialization.");
         }
     }
 
